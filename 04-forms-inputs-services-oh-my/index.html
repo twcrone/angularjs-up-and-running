@@ -3,26 +3,48 @@
 <head>
 <title>Notes App</title>
 <style>
-  .done {
+  .username.ng-valid {
     background-color: green;
   }
-  .pending {
+  .username.ng-dirty.ng-invalid-required {
     background-color: red;
+  }
+  .username.ng-dirty.ng-invalid-minlength {
+    background-color: lightpink;
   }
 </style>
 </head>
 <body ng-controller="MainCtrl as ctrl">
-  <form ng-submit="ctrl.submit()" name="myForm">
+  <form ng-submit="ctrl.submit()" name="regForm">
     
-    <input type="text" ng-model="ctrl.user.username" placeholder="Enter your username" required ng-minlength="4">
+    <input type="text" name="uname" 
+    class="username"
+    ng-model="ctrl.user.username" placeholder="Enter your username" required ng-minlength="4">
 
-    <input type="password" ng-model="ctrl.user.password" required>
+    <span ng-show="regForm.uname.$error.required">
+      This is a required field
+    </span>
 
-    <input type="submit" value="Submit" ng-disabled="myForm.$invalid">
+    <span ng-show="regForm.uname.$error.minlength">
+      Minimum length required is 4 
+    </span>
+
+    <span ng-show="regForm.uname.$invalid">
+      This field is invalid
+    </span>
+
+    <input type="password" name="pwd" ng-model="ctrl.user.password" required>
+
+    <span ng-show="regForm.pwd.$error.required">
+      This is a required field
+    </span>
+
+    <input type="submit" value="Submit" ng-disabled="regForm.$invalid">
   </form>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js">
-</script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-messages.js"></script>
+
 <script type="text/javascript">
   angular.module('notesApp', [])
     .controller('MainCtrl', [function() {
